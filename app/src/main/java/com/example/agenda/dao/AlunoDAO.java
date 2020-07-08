@@ -1,0 +1,49 @@
+package com.example.agenda.dao;
+
+import com.example.agenda.model.Aluno;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class AlunoDAO {
+
+    private final static List<Aluno> alunos = new ArrayList<>();
+    private static int contadorDeIds = 1;
+
+    public void salvar(Aluno aluno) {
+        aluno.setId(contadorDeIds);
+        alunos.add(aluno);
+        contadorDeIds++;
+    }
+
+    public void edita(Aluno aluno) {
+        Aluno alunoEncontrado = buscaAlunoPorId(aluno);
+
+        if (alunoEncontrado != null) {
+            int posicaoDoAluno = alunos.indexOf(alunoEncontrado);
+            alunos.set(posicaoDoAluno, aluno);
+        }
+    }
+
+    public void deleta(Aluno aluno) {
+        Aluno alunoDevolvido = buscaAlunoPorId(aluno);
+        if (alunoDevolvido != null) {
+            alunos.remove(alunoDevolvido);
+        }
+    }
+
+    private Aluno buscaAlunoPorId(Aluno aluno) {
+        Aluno alunoEncontrado = null;
+        for (Aluno a :
+                alunos) {
+            if (a.getId() == aluno.getId()) {
+                alunoEncontrado = a;
+            }
+        }
+        return alunoEncontrado;
+    }
+
+    public List<Aluno> todos() {
+        return new ArrayList<>(alunos);
+    }
+}
